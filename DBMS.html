@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management System</title>
+  <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #495057;
+      }
+  
+      header {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+        padding: 1em;
+      }
+  
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+  
+      section {
+        margin-top: 20px;
+      }
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+  
+      th, td {
+        border: 1px solid #dee2e6;
+        padding: 15px;
+        text-align: left;
+      }
+  
+      th {
+        background-color: #343a40;
+        color: #fff;
+      }
+  
+      .button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+  
+      .button:hover {
+        background-color: #0056b3;
+      }
+  
+      .card {
+        background-color: #f8f9fa;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+  
+      .card-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+  
+      .card-body {
+        padding: 20px;
+      }
+  
+      .form-group {
+        margin-bottom: 20px;
+      }
+  
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #495057;
+      }
+  
+      input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+      }
+  
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+      }
+  
+      .action-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      .action-buttons button.cancel {
+        background-color: #6c757d;
+        color: #fff;
+      }
+  
+      .action-buttons button.cancel:hover {
+        background-color: #5a6268;
+      }
+  
+      .action-buttons button.add {
+        background-color: #28a745;
+        color: #fff;
+      }
+  
+      .action-buttons button.add:hover {
+        background-color: #218838;
+      }
+  
+      .action-buttons button.remove {
+        background-color: #dc3545;
+        color: #fff;
+      }
+  
+      .action-buttons button.remove:hover {
+        background-color: #c82333;
+      }
+  
+      .action-buttons button.change-grade {
+        background-color: #ffc107;
+        color: #212529;
+      }
+  
+      .action-buttons button.change-grade:hover {
+        background-color: #e0a800;
+      }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Student Management System</h1>
+  </header>
+
+  <div class="container">
+    <section id="dashboard" class="card">
+      <div class="card-header">
+        <h2>Dashboard</h2>
+        <div class="action-buttons">
+          <input type="text" id="searchInput" placeholder="Search by name">
+          <button class="button" onclick="showAddStudentForm()">Add Student</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- Dashboard content goes here -->
+      </div>
+    </section>
+
+    <section id="student-list" class="card">
+      <div class="card-header">
+        <h2>Student List</h2>
+        <div class="action-buttons">
+          <button class="button" onclick="filterStudents()">Filter</button>
+         
+        </div>
+      </div>
+      <div class="card-body">
+        <table id="studentsTable">
+          <!-- Student list table goes here -->
+        </table>
+      </div>
+    </section>
+
+  
+
+    <section id="addStudentForm" class="card" style="display: none;">
+      <div class="card-header">
+        <h2>Add Student</h2>
+        <div class="action-buttons">
+          <button class="cancel" onclick="hideAddStudentForm()">Cancel</button>
+          <button class="add" onclick="addStudent()">Add</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- Add student form goes here -->
+        <div class="form-group">
+          <label for="SID">StudentID:</label>
+          <input type="text" id="SID">
+          <label for="FN">First Name:</label>
+          <input type="text" id="FN">
+          <label for="LN">Last Name:</label>
+          <input type="text" id="LN">
+          <label for="DOB">Date of Birth:</label>
+          <input type="text" id="DOB">
+          <label for="G">Gender:</label>
+          <input type="text" id="G">
+          <label for="Addr">Address:</label>
+          <input type="text" id="Addr">
+          <label for="PN">Phone:</label>
+          <input type="text" id="PN">
+          <label for="Em">Email:</label>
+          <input type="text" id="Em">
+        </div>
+      </div>
+    </section>
+    <section id="updateStudentForm" class="card" style="display: none;">
+      <div class="card-header">
+        <h2>Update Student</h2>
+        <div class="action-buttons">
+          <button class="cancel" onclick="hideUpdateStudentForm()">Cancel</button>
+          <button class="add" onclick="updateStudent()">Update</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- Update student form goes here -->
+        <!-- ... similar to the Add Student form ... -->
+        <div class="form-group">
+          <label for="Update_SID">StudentID:</label>
+          <input type="text" id="Update_SID">
+          <label for="Update_FN">First Name:</label>
+          <input type="text" id="Update_FN">
+          <label for="Update_LN">Last Name:</label>
+          <input type="text" id="Update_LN">
+          <label for="DOB">Date of Birth:</label>
+          <input type="text" id="Update_DOB">
+          <label for="G">Gender:</label>
+          <input type="text" id="Update_G">
+          <label for="Addr">Address:</label>
+          <input type="text" id="Update_Addr">
+          <label for="PN">Phone:</label>
+          <input type="text" id="Update_PN">
+          <label for="Em">Email:</label>
+          <input type="text" id="Update_Em">
+        </div>
+      </div>
+    </section>
+    
+
+  </div>
+
+  <script>
+    // Sample student data
+    let students = [
+      { SID: 1, FN: 'Doe', LN:'John', DOB: '03/08/2000',G:'MALE',Addr:'US',PN:'0888299891',Em:'johndoe@hcmut.edu.vn' },
+      { SID: 2, FN: 'Smith', LN:'Jane', DOB: '28/08/2000',G:'MALE',Addr:'US',PN:'0878299891',Em:'janesmith@hcmut.edu.vn' },
+      // Add more student data as needed
+    ];
+
+    // Function to display students in the table
+    function displayStudents() {
+      const table = document.getElementById('studentsTable');
+      table.innerHTML = `
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Date Of Birth</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+      `;
+      students.forEach(student => {
+        table.innerHTML += `
+          <tr>
+            <td>${student.SID}</td>
+            <td>${student.FN}</td>
+            <td>${student.LN}</td>
+            <td>${student.DOB}</td>
+            <td>${student.G}</td>
+            <td>${student.Addr}</td>
+            <td>${student.PN}</td>
+            <td>${student.Em}</td>
+            <td>
+              <button onclick="removeStudent(${student.SID})">Remove</button>
+              <button onclick="showUpdateStudentForm(${student.SID})">Update</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // Function to filter students by name
+    function filterStudents() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const filteredStudents = students.filter(student => student.FN.toLowerCase().includes(searchInput));
+      displayStudents(filteredStudents);
+    }
+
+    // Function to show the "Add Student" form
+    function showAddStudentForm() {
+      document.getElementById('addStudentForm').style.display = 'block';
+    }
+
+    // Function to hide the "Add Student" form 
+    function hideAddStudentForm() {
+      document.getElementById('addStudentForm').style.display = 'none';
+    }
+
+    // Function to add a new student
+    function addStudent() {
+      const newSID = document.getElementById('SID').value;
+      const newFN = document.getElementById('FN').value;
+      const newLN = document.getElementById('LN').value;
+      const newDOB = document.getElementById('DOB').value;
+      const newG = document.getElementById('G').value;
+      const newAddr = document.getElementById('Addr').value;
+      const newPhone = document.getElementById('PN').value;
+      const newEm = document.getElementById('Em').value;
+      const newStudent = {  SID: newSID, FN: newFN, LN:newLN, DOB: newDOB,G:newG,Addr:newAddr,PN:newPhone,Em:newEm };
+      students.push(newStudent);
+      displayStudents();
+      hideAddStudentForm();
+
+      const updateButton = document.createElement('button');
+      updateButton.textContent = 'Update';
+      updateButton.onclick = function () {
+        showUpdateStudentForm(newSID);
+      };
+      const lastRow = document.getElementById('studentsTable').rows[students.length];
+      const lastCell = lastRow.cells[lastRow.cells.length - 1];
+      lastCell.innerHTML = '';
+      lastCell.appendChild(updateButton);
+      
+    }
+
+    // Function to remove a student by ID
+    function removeStudent(studentId) {
+      students = students.filter(student => student.SID !== studentId);
+      displayStudents();
+    }
+
+    // Function to show the "Update Student" form
+  function showUpdateStudentForm(studentId) {
+    
+  const student = students.find(student => student.SID === studentId);
+  if (student) {
+    // Populate the form with existing data
+    document.getElementById('Update_SID').value = student.SID;
+    document.getElementById('Update_FN').value = student.FN;
+    document.getElementById('Update_LN').value = student.LN;
+    document.getElementById('Update_DOB').value = student.DOB;
+    document.getElementById('Update_G').value = student.G;
+    document.getElementById('Update_Addr').value = student.Addr;
+    document.getElementById('Update_PN').value = student.PN;
+    document.getElementById('Update_Em').value = student.Em;
+
+    
+  }
+  document.getElementById('updateStudentForm').style.display = 'block';
+}
+
+// Function to hide the "Update Student" form 
+function hideUpdateStudentForm() {
+  document.getElementById('updateStudentForm').style.display = 'none';
+}
+
+// Function to update an existing student
+function updateStudent() {
+  const updateSID = document.getElementById('Update_SID').value;
+  const updateFN = document.getElementById('Update_FN').value;
+  const updateLN = document.getElementById('Update_LN').value;
+  const updateDOB = document.getElementById('Update_DOB').value;
+  const updateG = document.getElementById('Update_G').value;
+  const updateAddr = document.getElementById('Update_Addr').value;
+  const updatePhone = document.getElementById('Update_PN').value;
+  const updateEm = document.getElementById('Update_Em').value;
+
+  // Find the index of the student to be updated
+  const index = students.findIndex(student => student.SID == updateSID);
+
+  // Update the student if found
+  if (index !== -1) {
+    students[index] = { SID: updateSID, FN: updateFN, LN: updateLN, DOB: updateDOB, G: updateG, Addr: updateAddr, PN: updatePhone, Em: updateEm };
+    displayStudents();
+    hideUpdateStudentForm();
+  }
+}
+
+
+    // Initial display of students
+    displayStudents();
+  </script>
+
+</body>
+</html>
