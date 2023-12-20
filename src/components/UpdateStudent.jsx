@@ -14,20 +14,10 @@ function UpdateStudent({toggleForm}) {
         {/* <!-- Update student form goes here --> */}
         {/* <!-- ... similar to the Add Student form ... --> */}
         <div className="form-group">
-          <label htmlFor="Update_SclassName">StudentclassName:</label>
-          <input type="text" className="Update_SclassName"/>
           <label htmlFor="Update_FN">First Name:</label>
           <input type="text" className="Update_FN"/>
           <label htmlFor="Update_LN">Last Name:</label>
-          <input type="text" className="Update_LN"/>
-          <label htmlFor="DOB">Date of Birth:</label>
-          <input type="text" className="Update_DOB"/>
-          <label htmlFor="G">Gender:</label>
-          <input type="text" className="Update_G"/>
-          <label htmlFor="Addr">Address:</label>
-          <input type="text" className="Update_Add"/>
-          <label htmlFor="PN">Phone:</label>
-          <input type="text" className="Update_PN"/>
+          <input type="text" className="Update_LN"/> 
           <label htmlFor="Em">Email:</label>
           <input type="text" className="Update_Em"/>
         </div>
