@@ -1,32 +1,53 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { 
+    fetchStudentFromCourse,
+    fetchStudentFromCourseWithGrade
+ } from '../redux/studentSlice/actions';
 
 const CourseDetail = ({toggleForm}) => {
-    const courseName = 'Course Name';
-    const credits = 3;
-    const studentList = [
-        { lastName: 'Doe', firstName: 'John', email: 'john.doe@example.com', grade: 90 },
-        { lastName: 'Smith', firstName: 'Jane', email: 'jane.smith@example.com', grade: 85 },
-        { lastName: 'Johnson', firstName: 'Michael', email: 'michael.johnson@example.com', grade: 95 },
-    ];
+    // const currentStudent = useSelector(state => state.students.currentStudent)
+    const currentCourse = useSelector(state => state.students.currentCourseDetail)
+    const courseStudents = useSelector(state => state.students.courseStudents)
+    const [minGrade, setMinGrade] = useState(0)
+    const [maxGrade, setMaxGrade] = useState(10)
 
-    const [minGrade, setMinGrade] = useState('');
-    const [maxGrade, setMaxGrade] = useState('');
+    const dispatch = useDispatch()
+
+    console.log('render maxGrade:', maxGrade)
+
+    console.log('render minGrade:', minGrade)
+    useEffect(() => {
+        console.log('currentCourse:', currentCourse)
+        dispatch(fetchStudentFromCourse(currentCourse.course_id, 0, 10))
+    }, [currentCourse, dispatch])
+
+
+    useEffect(() => {
+        console.log('courseStudents:', courseStudents)
+    }, [courseStudents])
+
 
     const handleFilterSubmit = () => {
         // Perform filtering logic based on minGrade and maxGrade values
         // Update the filtered student list accordingly
+        dispatch(fetchStudentFromCourseWithGrade(currentCourse.course_id, minGrade, maxGrade))
+
     };
 
     return (
         <div>
-            <h2>{courseName}</h2>
-            <p>Credits: {credits}</p>
+            <button className='button' onClick={() => toggleForm("Open student detail")}>Back to Student</button>
+            <h2>Course: {currentCourse.name}</h2>
+            <h3>Credits: {currentCourse.credits}</h3>
             <div>
                 <label htmlFor="minGrade">Min Grade:</label>
                 <input
                     type="number"
                     className="minGrade"
-                    value={minGrade}
+                    defaultValue={minGrade}
+                    
                     onChange={(e) => setMinGrade(e.target.value)}
                 />
             </div>
@@ -35,11 +56,12 @@ const CourseDetail = ({toggleForm}) => {
                 <input
                     type="number"
                     className="maxGrade"
-                    value={maxGrade}
+                    defaultValue={maxGrade}
+                    
                     onChange={(e) => setMaxGrade(e.target.value)}
                 />
             </div>
-            <button onClick={handleFilterSubmit}>Submit Filter</button>
+            <button className='button' onClick={handleFilterSubmit}>Submit Filter</button>
             <table>
                 <thead>
                     <tr>
@@ -50,10 +72,10 @@ const CourseDetail = ({toggleForm}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {studentList.map((student, index) => (
+                    {courseStudents && courseStudents.map((student, index) => (
                         <tr key={index}>
-                            <td>{student.lastName}</td>
-                            <td>{student.firstName}</td>
+                            <td>{student.last_name}</td>
+                            <td>{student.first_name}</td>
                             <td>{student.email}</td>
                             <td>{student.grade}</td>
                         </tr>

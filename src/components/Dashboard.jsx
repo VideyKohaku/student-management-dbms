@@ -14,6 +14,9 @@ function Dashboard({toggleForm}) {
           <button className="button" onClick={() => toggleForm("Open add")}>
             Add Student
           </button>
+          <button className="button" onClick={() => toggleForm("Open course list")}>
+            Course List
+          </button>
         </div>
       </div>
     </section>

@@ -1,28 +1,24 @@
 import React, {useState} from "react"
-import axios from "axios"
+import { useDispatch } from "react-redux"
+import { addStudent } from "../redux/studentSlice/actions"
 
 
 function AddStudent({toggleForm}) {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
-  // cosnt []
+  const dispatch = useDispatch()
+
   
-  console.log(firstName, lastName, email)
+  // console.log(firstName, lastName, email)
 
-  const addStudent = async () => {
-    try{
-      const res = await axios.post("http://localhost:3000/api/v1/students/", {
-        first_name: firstName,
-        last_name: lastName,
-        email: email
-      })
-
-      console.log(res)
-    } catch (err) {
-      console.log(err)
-    }
-
+  const handleAddStudent = () => {
+    dispatch(addStudent({
+      first_name: firstName, 
+      last_name: lastName, 
+      email: email
+    }))
+    toggleForm("Close add")
   }
   
   return (
@@ -31,7 +27,7 @@ function AddStudent({toggleForm}) {
         <h2>Add Student</h2>
         <div className="action-buttons">
           <button className="cancel" onClick={() => toggleForm("Close add")}>Cancel</button>
-          <button className="add" onClick={addStudent}>Add</button>
+          <button className="add" onClick={handleAddStudent}>Add</button>
         </div>
       </div>
       <div className="card-body">
